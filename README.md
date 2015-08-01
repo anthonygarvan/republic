@@ -9,17 +9,18 @@ But why have a representational government for microservices? Shouldn't importan
 In it's implementation, Republic is a web service that validates other web services ("citizens") according to features they must implement according to their citizen types. Just like governments operate on entities (private citizens, states, corporations, etc.), so too Republic is designed to validate that a web service comply with protocols and implement behavior according to their citizen types. The base government API supports basic operations around citizenship, elections, and regulations.
 
 ## Government API
-- citizenship/apply?url={url}&citizen_types={string}
-- citizenship/addmember?citizen_id={citizen_id}&member_username={username}
-- citizenship/status?url
-- citizenship/all
-- citizenship/search?query={query_string}
-- election/representatives/list
-- election/vote/representative/username={name}&position={title}
-- electron/runforoffice/username={}&position={title}&platform={url}
-- regulation/enforce/all
-- regulation/enforce?url={url}
-- regulation/enforce?entitytype={string}
+- government/citizenship/apply?url={url}&citizen_types={string}
+- government/citizenship/add-member?citizen_id={citizen_id}&member_username={username}
+- government/citizenship/status?url
+- government/citizenship/all
+- government/citizenship/search?query={query_string}
+- government/election/representatives/list
+- government/election/vote/username={name}&position={title}
+- government/election/details
+- government/election/run-for-office/username={}&position={title}&platform={url}
+- government/regulation/enforce/all
+- government/regulation/enforce/url/{url}
+- government/regulation/enforce/citizen-type/{citizen-type}
 - government/isalive
 
 ## Person API
@@ -49,6 +50,6 @@ In it's implementation, Republic is a web service that validates other web servi
 ```
 Then, you will need to enter your github account information in github_config.yaml
 ```
-> node gov.js
+> node app.js
 ```
 *"Democracy is the worst idea for a software architecture, except for all the others."*
