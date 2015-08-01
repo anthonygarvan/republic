@@ -9,45 +9,46 @@ But why have a representational government for microservices? Shouldn't importan
 In it's implementation, Republic is a web service that validates other web services ("citizens") according to features they must implement according to their citizen types. Just like governments operate on entities (private citizens, states, corporations, etc.), so too Republic is designed to validate that a web service comply with protocols and implement behavior according to their citizen types. The base government API supports basic operations around citizenship, elections, and regulations.
 
 ## Government API
-citizenship/apply?url={url}&citizen_types={string}
-citizenship/addmember?citizen_id={citizen_id}&member_username={username}
-citizenship/status?url
-citizenship/all
-citizenship/search?query={query_string}
-election/representatives/list
-election/vote/representative/username={name}&position={title}
-electron/runforoffice/username={}&position={title}&platform={url}
-regulation/enforce/all
-regulation/enforce?url={url}
-regulation/enforce?entitytype={string}
-government/isalive
+- citizenship/apply?url={url}&citizen_types={string}
+- citizenship/addmember?citizen_id={citizen_id}&member_username={username}
+- citizenship/status?url
+- citizenship/all
+- citizenship/search?query={query_string}
+- election/representatives/list
+- election/vote/representative/username={name}&position={title}
+- electron/runforoffice/username={}&position={title}&platform={url}
+- regulation/enforce/all
+- regulation/enforce?url={url}
+- regulation/enforce?entitytype={string}
+- government/isalive
 
 ## Person API
-person/isalive
+- person/isalive
 
 ## Citizen API
-citizen/name
-citizen/description
-citizen/logthis/{string}
-citizen/getlogs
-citizen/pleasevote
+- citizen/name
+- citizen/description
+- citizen/logthis/{string}
+- citizen/getlogs
+- citizen/pleasevote
 
 ## Government Positions
-owner(s)
-puller
-supporter
+- owner(s)
+- puller
+- supporter
 
 ## Other Design Objectives
 - easy migration path from either monolithic apps or tribal microservices
 - opt in or opt out at any time, both at an individual and organizational level
 
 ## Setup
-git clone https://github.com/anthonygarvan/republic.git
-cd republic
-npm install
-
+```
+> git clone https://github.com/anthonygarvan/republic.git
+> cd republic
+> npm install
+```
 Then, you will need to enter your github account information in github_config.yaml
-
-node gov.js
-
-```"Democracy is the worst idea for a software architecture, except for all the others."```
+```
+> node gov.js
+```
+*"Democracy is the worst idea for a software architecture, except for all the others."*
