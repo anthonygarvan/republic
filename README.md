@@ -39,8 +39,9 @@ In it's implementation, Republic is a web service that validates other web servi
 - supporter
 
 ## Other Design Objectives
-- easy migration path from either monolithic apps or tribal microservices
+- easy migration path from either monolithic apps or microservices
 - opt in or opt out at any time, both at an individual and organizational level
+- Dogfooding?
 
 ## Setup
 ```
