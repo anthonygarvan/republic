@@ -1,7 +1,7 @@
 var express = require('express');
-var citizenship = require("./citizenship.js");
-var election = require("./election.js");
-var regulation = require("./regulation.js")
+var citizenship = require("./citizenship/citizenship.js");
+var election = require("./election/election.js");
+var regulation = require("./regulation/regulation.js")
 
 var router = express.Router();
 

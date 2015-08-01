@@ -1,5 +1,5 @@
 var express = require('express');
-var government = require('./controllers/government');
+var government = require('./government/government.js');
 app = express();
 
 app.get('/', function (req, res) {
