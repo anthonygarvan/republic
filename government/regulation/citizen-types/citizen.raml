@@ -1,0 +1,37 @@
+#%RAML 0.8
+
+title: citizen
+baseUri: http://example.api.com/{version}
+version: v1
+/citizen/details:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/schema",
+                "type": "object",
+                "description": "Gets basic information about the citizen",
+                "properties": {
+                  "name": "citizen name",
+                  "description": "citizen description"
+                  },
+                  "required": ["name", "description"]
+              }
+/citizen/get-logs:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              { "$schema": "http://json-schema.org/schema",
+                "type": "object",
+                "description": "Get a few recent logs",
+                "properties": {
+                  "logs":  ["line1", "line2"]
+                },
+                "required": [ "logs" ]
+              }
