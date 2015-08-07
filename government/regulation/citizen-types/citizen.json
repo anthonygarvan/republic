@@ -1,0 +1,11 @@
+{
+    "endpoints":
+    [
+      {"relativeUri": "/citizen/details",
+      "requestType": "get",
+      "responseTemplate": {"name": "Test", "description": "This is just a test"}},
+      {"relativeUri": "/citizen/get-logs",
+      "requestType": "get",
+      "responseTemplate": {"logs": ["1", "2", "3"]}}
+    ]
+}

@@ -1,18 +1,61 @@
 var express = require('express');
 var router = express.Router();
-var raml = require('raml-parser');
 var async = require('async');
 var request = require('request');
+var fs = require('fs');
+
+var validateObj = function(template, result) {
+  console.log(template);
+  Object.keys(template).forEach(function(key) {
+    console.log(key + ", " + Object.keys(result));
+    if(!(key in result)) {
+      console.log(key + ", " + Object.keys(result));
+      return false;
+    }
+  })
+  return true;
+}
 
 var validateUrlForCitizenType = function(input, callback) {
   console.log(input);
-  raml.loadFile(__dirname + "/citizen-types/" + input.citizenType + '.raml')
-  .then( function(data) {
-    callback(null, input);
-    console.log(data);
-  }, function(error) {
-    console.log('Error parsing: ' + error);
-    callback(null, null);
+  fs.readFile(__dirname + "/citizen-types/" + input.citizenType + '.json',
+    'utf8', function (err, data) {
+      if (err) {
+        console.log('Could not find citizen type: ' + err);
+        callback(null, null);
+      } else {
+        template = JSON.parse(data);
+        async.map(template.endpoints, function(endpoint, callback) {
+            if(endpoint.requestType == "get") {
+              var url = input.url + endpoint.relativeUri;
+              console.log(url);
+              request.get(url,
+                function(err, httpResponse, body) {
+                  if(err) {callback(null, false);}
+                  else {
+                    var result = JSON.parse(body);
+                    var isValid = validateObj(endpoint.responseTemplate, result);
+                    callback(null, isValid);
+                  }
+                })
+            }
+        }, function(err, results) {
+              if(err) {callback(null, null);}
+              var hasInvalidEndpoints = false;
+              console.log(results);
+              results.forEach(function(result) {
+                  if(!result) {
+                    hasInvalidEndpoints = true;
+                  }
+              });
+
+              if(hasInvalidEndpoints) {
+                callback(null, null)
+              } else {
+                callback(null, input)
+              }
+        })
+      }
   });
 }
 
@@ -22,7 +65,7 @@ router.get('/', function(req, res) {
 
 router.get('/enforce/all', function (req, res) {
   request.get('http://localhost:3000/government/citizenship/all',
-    function(err,httpResponse,body) {
+    function(err, httpResponse, body) {
       var citizens = JSON.parse(body).results;
       inputs = [];
       validCitizens = [];
