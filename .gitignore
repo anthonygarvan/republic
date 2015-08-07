@@ -1,2 +1,3 @@
 node_modules/*
 government/citizenship/citizenshipdb/*
+npm-debug.log

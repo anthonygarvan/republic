@@ -12,7 +12,7 @@ var validateObj = function(template, result) {
       console.log(key + ", " + Object.keys(result));
       return false;
     }
-  })
+  });
   return true;
 }
 

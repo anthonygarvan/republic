@@ -3,9 +3,13 @@ var request = require('request');
 var router = express.Router();
 var async = require('async');
 var Engine = require('tingodb')()
+var mkdirp = require('mkdirp');
 
-var db = new Engine.Db(__dirname + '/citizenshipdb', {});
-var collection = db.collection("citizens");
+var dbPath = __dirname + '/citizenshipdb';
+mkdirp(dbPath, function(err) {
+  db = new Engine.Db(dbPath, {});
+  collection = db.collection("citizens");
+})
 
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to the citizenship api!' });
@@ -29,7 +33,7 @@ router.post('/apply', function (req, res) {
                   });
                 }
                 else {
-                    res.json({success: false});
+                  res.json({success: false});
                 }
               });} else {
         res.json({success: false});
