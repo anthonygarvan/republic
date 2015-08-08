@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/anthonygarvan/republic.svg)](https://travis-ci.org/anthonygarvan/republic)
+
 # Republic: A democratic microservice governance platform (WIP)
 
 Republic is an implementation of a representative democracy in the domain of enterprise software architecture. It is a highly scalable microservice platform that overcomes the flaws of authoritarian monoliths and tribal microservices, providing loose coupling between services while enabling rapid infrastructure improvements. The governing code itself can be edited by collaborators elected by service contributors, ensuring incentives for change and longevity. Built on top of [nodejs](https://nodejs.org/), the [github API](https://developer.github.com/v3/), and [the idea of representative democracy](https://en.wikipedia.org/wiki/Republic).  
