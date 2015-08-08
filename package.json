@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "nohup node app.js &; cd tests && jasmine"
+    "test": "cd tests && jasmine"
   },
   "repository": {
     "type": "git",
