@@ -48,6 +48,12 @@ Some other potential constraints on citizens:
 - Failure of the government service should not lead to failure of core features of citizen services
 - Dogfooding?
 
+## TODO
+- jasmine tests
+- add support for regulating post requests
+- figure out authentication story
+- angularjs + skeleton css front end
+
 ## Setup
 ```
 > git clone https://github.com/anthonygarvan/republic.git
