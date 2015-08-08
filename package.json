@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "/"
+    "test": "tests/spec/jasmine_examples/PlayerSpec.js"
   },
   "repository": {
     "type": "git",
