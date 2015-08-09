@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/anthonygarvan/republic.svg)](https://travis-ci.org/anthonygarvan/republic)
+[![Build Status](https://travis-ci.org/anthonygarvan/republic.svg)](https://travis-ci.org/anthonygarvan/republic) [![Coverage Status](https://coveralls.io/repos/anthonygarvan/republic/badge.svg?branch=master&service=github)](https://coveralls.io/github/anthonygarvan/republic?branch=master)
 
 # Republic: A democratic microservice governance platform (WIP)
 
@@ -62,8 +62,15 @@ Some other potential constraints on citizens:
 > cd republic
 > npm install
 ```
-Then, you will need to enter your github account information and domain root in republic.config. Lastly, to start the app run
+Then, you will need to enter your github account information and domain root in
+republic_config.json. Lastly, to start the app run
 ```
 > node app.js
 ```
+
+To run tests locally, use
+```
+> npm install -g jasmine-node
+> cd tests
+> jasmine
 *"Democracy is the worst idea for a software architecture, except for all the others."*
