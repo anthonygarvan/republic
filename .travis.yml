@@ -3,10 +3,9 @@ node_js:
     - 0.12
 env:
     - JASMINE_CONFIG_PATH=tests/support/jasmine.json
+    - COVERAGE=true
 before_script:
     - "npm i -g jasmine-node"
-    - "nohup node app.js &"
-    - "sleep 1"
 script:
     - "npm test"
     - "npm run-script coverage"
