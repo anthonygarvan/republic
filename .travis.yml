@@ -5,3 +5,8 @@ before_script:
     - "npm i -g jasmine-node"
     - "nohup node app.js &"
     - "sleep 1"
+script:
+    - "npm test"
+    - "npm run-script coverage"
+after_success:
+    - "npm run-script coveralls"
