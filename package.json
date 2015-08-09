@@ -19,7 +19,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "node tests/testRunner.js",
-    "coverage": "istanbul cover --include-all-sources tests/testRunner.js",
+    "coverage": "istanbul cover --include-all-sources --verbose tests/testRunner.js",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {

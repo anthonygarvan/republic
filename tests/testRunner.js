@@ -11,7 +11,7 @@ server.start({port: 3000}, function () {
   jasmineNode.stderr.on('data', logToConsole);
 
   jasmineNode.on('exit', function(exitCode) {
-      console.log("closing...");
+      console.log("closing server...");
       server.close();
   });
 });
