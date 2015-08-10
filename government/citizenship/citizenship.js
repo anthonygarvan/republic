@@ -21,20 +21,15 @@ router.post('/apply', function (req, res) {
       form: {url: req.body.url, citizenTypes: req.body.citizenTypes}},
               function(err,httpResponse,body) {
                 result = JSON.parse(body);
-                if(result.validCitizenTypes) {
-                  async.map(result.validCitizenTypes, function(citizenType, callback) {
-                    collection.update({url: req.body.url},
-                      {url: req.body.url, citizenType: citizenType},
-                      {upsert: true},
-                      function(err, result) {callback();});
-                      },
-                    function(err, result) {
-                      res.json({ success: true, validCitizenTypes: validCitizenTypes});
-                  });
-                }
-                else {
-                  res.json({success: false});
-                }
+                async.map(result.validCitizenTypes, function(citizenType, callback) {
+                  collection.update({url: req.body.url},
+                    {url: req.body.url, citizenType: citizenType},
+                    {upsert: true},
+                    function(err, result) {callback();});
+                    },
+                  function(err, result) {
+                    res.json({ success: true, validCitizenTypes: validCitizenTypes});
+                });
               });} else {
         res.json({success: false});
       }

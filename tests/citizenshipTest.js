@@ -29,6 +29,17 @@ describe("Make sure government is alive", function() {
       })
   });
 
+  it("returns success false with invalid parameters", function(done) {
+      request.post({url: "http://localhost:3000/government/citizenship/apply",
+      form: {}},
+      function(err, response, body) {
+            expect(!err && response.statusCode == 200).toBe(true);
+            result = JSON.parse(body);
+            expect(result.success).toBe(false);
+            done();
+      })
+  });
+
   it("returns success for adding collaborator", function(done) {
       request.post({url: "http://localhost:3000/government/citizenship/apply",
       form: {url: "http://localhost:3001", citizenTypes: ["citizen"]}},

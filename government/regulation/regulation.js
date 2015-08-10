@@ -66,7 +66,7 @@ router.get('/', function(req, res) {
 router.get('/enforce/all', function (req, res) {
   request.get('http://localhost:3000/government/citizenship/all',
     function(err, httpResponse, body) {
-      var citizens = JSON.parse(body).results;
+      var citizens = JSON.parse(body).citizens;
       inputs = [];
       validCitizens = [];
       console.log(citizens);
