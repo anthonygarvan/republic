@@ -5,11 +5,8 @@ var request = require('request');
 var fs = require('fs');
 
 var validateObj = function(template, result) {
-  console.log(template);
   Object.keys(template).forEach(function(key) {
-    console.log(key + ", " + Object.keys(result));
     if(!(key in result)) {
-      console.log(key + ", " + Object.keys(result));
       return false;
     }
   });
@@ -17,18 +14,15 @@ var validateObj = function(template, result) {
 }
 
 var validateUrlForCitizenType = function(input, callback) {
-  console.log(input);
   fs.readFile(__dirname + "/citizen-types/" + input.citizenType + '.json',
     'utf8', function (err, data) {
       if (err) {
-        console.log('Could not find citizen type: ' + err);
         callback(null, null);
       } else {
         template = JSON.parse(data);
         async.map(template.endpoints, function(endpoint, callback) {
             if(endpoint.requestType == "get") {
               var url = input.url + endpoint.relativeUri;
-              console.log(url);
               request.get(url,
                 function(err, httpResponse, body) {
                   if(err) {callback(null, false);}
@@ -42,7 +36,6 @@ var validateUrlForCitizenType = function(input, callback) {
         }, function(err, results) {
               if(err) {callback(null, null);}
               var hasInvalidEndpoints = false;
-              console.log(results);
               results.forEach(function(result) {
                   if(!result) {
                     hasInvalidEndpoints = true;
@@ -69,7 +62,6 @@ router.get('/enforce/all', function (req, res) {
       var citizens = JSON.parse(body).citizens;
       inputs = [];
       validCitizens = [];
-      console.log(citizens);
       citizens.forEach(function(citizen) {
           inputs.push({url: citizen.url, citizenType: citizen.citizenType});
       });

@@ -70,7 +70,7 @@ republic_config.json. Lastly, to start the app run
 
 To run tests locally, use
 ```
-> npm install -g jasmine-node
-> cd tests
-> jasmine
+> npm test
+> npm run coverage
+```
 *"Democracy is the worst idea for a software architecture, except for all the others."*
