@@ -70,8 +70,8 @@ router.get('/get-citizen', function (req, res) {
 });
 
 router.get('/all', function (req, res) {
-  collection.find({}).toArray(function(err, results) {
-    res.json({success: true, results: results});
+  collection.find({}).toArray(function(err, citizens) {
+    res.json({success: true, citizens: citizens});
   });
 });
 
