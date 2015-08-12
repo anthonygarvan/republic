@@ -1,4 +1,5 @@
 var request = require("request")
+
 describe("Tests for elections", function() {
   it("returns something from election root", function(done) {
       request.get("http://localhost:3000/government/election", function(err, response, body) {
@@ -14,6 +15,19 @@ describe("Tests for elections", function() {
             expect(result.success).toBe(true);
             expect(result.representatives.length > 0).toBe(true);
             done();
+      })
+  });
+
+  it("returns representatives after boostrapping", function(done) {
+      request.get("http://localhost:3000/government/election/remove-representatives",
+        function(err, response, body) {
+          request.get("http://localhost:3000/government/election/get-representatives", function(err, response, body) {
+            expect(!err && response.statusCode == 200).toBe(true);
+            var result = JSON.parse(body);
+            expect(result.success).toBe(true);
+            expect(result.representatives.length > 0).toBe(true);
+            done();
+          });
       })
   });
 

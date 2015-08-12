@@ -3,26 +3,14 @@ var mkdirp = require('mkdirp');
 var fs = require('fs');
 var Engine = require('tingodb')();
 var router = express.Router();
+var async = require('async');
 
 var dbPath = __dirname + '/electiondb';
-mkdirp(dbPath, function(err) {
-  db = new Engine.Db(dbPath, {});
-  representatives = db.collection("representatives");
-  votes = db.collection("votes")
-  representatives.ensureIndex({"Title": 1}, {"unique": true});
-
-  representatives.find({}).toArray(function(err, reps) {
-    if(reps.length === 0) {
-      fs.readFile(__dirname + '/bootstrap_representatives.json',
-        'utf8', function (err, data) {
-            reps = JSON.parse(data).representatives;
-            reps.forEach(function(rep) {
-              representatives.insert(rep);
-            });
-      });
-    }
-  });
-});
+mkdirp.sync(dbPath)
+db = new Engine.Db(dbPath, {});
+representatives = db.collection("representatives");
+votes = db.collection("votes")
+representatives.ensureIndex({"Title": 1}, {"unique": true});
 
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to the election api!' });
@@ -30,8 +18,27 @@ router.get('/', function(req, res) {
 
 router.get('/get-representatives', function (req, res) {
   representatives.find({}).toArray(function(err, reps) {
-    res.json({success: true, "representatives": reps});
-  });
+    if(reps.length === 0) {
+      fs.readFile(__dirname + '/bootstrap_representatives.json',
+        'utf8', function (err, data) {
+            reps = JSON.parse(data).representatives;
+            async.map(reps, function(rep, callback) {
+              representatives.insert(rep, function(err) {
+                callback();
+              });},
+              function(err, reponse) {
+                representatives.find({}).toArray(function(err, reps) {
+                  res.json({success: true, "representatives": reps});                })
+              });}
+            );
+      } else {
+        res.json({success: true, "representatives": reps});
+      }});
+});
+
+router.get('/remove-representatives', function (req, res) {
+  representatives.remove();
+  res.json({success: true});
 });
 
 router.get('/vote', function (req, res) {
