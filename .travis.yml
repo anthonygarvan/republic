@@ -6,6 +6,8 @@ env:
 before_script:
     - "npm i -g jasmine-node"
     - "nohup node examples/citizen.js &"
+    - "nohup node examples/citizenMissingEndpoint.js &"
+    - "nohup node examples/citizenWithInvalidReturn.js &"
 script:
     - "npm test"
     - "npm run-script coverage"

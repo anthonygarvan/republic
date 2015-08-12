@@ -21,4 +21,34 @@ describe("Tests regulation API", function() {
           });
       })
   });
+
+  it("returns no valid citizens when requesting an invalid citizen", function(done) {
+      request.post({url: "http://localhost:3000/government/citizenship/apply",
+      form: {url: "http://localhost:3002", citizenTypes: ["citizen"]}},
+      function(err, response, body) {
+        request.post({url:'http://localhost:3000/government/regulation/enforce/url',
+          form: {url: "http://localhost:3002", citizenTypes: ['citizen']}},
+                  function(err,httpResponse,body) {
+                    result = JSON.parse(body);
+                    expect(result.success).toBe(true);
+                    expect(result.validCitizenTypes.length === 0).toBe(true);
+                    done();
+          });
+      });
+  });
+
+  it("returns no valid citizens when requesting an citizen with invalid response", function(done) {
+      request.post({url: "http://localhost:3000/government/citizenship/apply",
+      form: {url: "http://localhost:3003", citizenTypes: ["citizen"]}},
+      function(err, response, body) {
+        request.post({url:'http://localhost:3000/government/regulation/enforce/url',
+          form: {url: "http://localhost:3003", citizenTypes: ['citizen']}},
+                  function(err,httpResponse,body) {
+                    result = JSON.parse(body);
+                    expect(result.success).toBe(true);
+                    expect(result.validCitizenTypes.length === 0).toBe(true);
+                    done();
+          });
+      });
+  });
 });

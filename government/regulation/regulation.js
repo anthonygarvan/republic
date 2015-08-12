@@ -5,12 +5,13 @@ var request = require('request');
 var fs = require('fs');
 
 var validateObj = function(template, result) {
+  var isValid = true;
   Object.keys(template).forEach(function(key) {
     if(!(key in result)) {
-      return false;
+      isValid = false;
     }
   });
-  return true;
+  return isValid;
 }
 
 var validateUrlForCitizenType = function(input, callback) {
@@ -25,7 +26,7 @@ var validateUrlForCitizenType = function(input, callback) {
               var url = input.url + endpoint.relativeUri;
               request.get(url,
                 function(err, httpResponse, body) {
-                  if(err) {callback(null, false);}
+                  if(httpResponse.statusCode !== 200 || err) {callback(null, false);}
                   else {
                     var result = JSON.parse(body);
                     var isValid = validateObj(endpoint.responseTemplate, result);
@@ -34,7 +35,6 @@ var validateUrlForCitizenType = function(input, callback) {
                 })
             }
         }, function(err, results) {
-              if(err) {callback(null, null);}
               var hasInvalidEndpoints = false;
               results.forEach(function(result) {
                   if(!result) {
