@@ -13,7 +13,7 @@ app.get('/citizen/get-logs', function (req, res) {
   res.json({"logs": ["line1", "line2", "line3"]});
 });
 
-var server = app.listen(3002, function () {
+var server = app.listen(3004, function () {
   var host = server.address().address;
   var port = server.address().port;
 

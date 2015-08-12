@@ -24,10 +24,10 @@ describe("Tests regulation API", function() {
 
   it("returns no valid citizens when requesting an invalid citizen", function(done) {
       request.post({url: "http://localhost:3000/government/citizenship/apply",
-      form: {url: "http://localhost:3002", citizenTypes: ["citizen"]}},
+      form: {url: "http://localhost:3004", citizenTypes: ["citizen"]}},
       function(err, response, body) {
         request.post({url:'http://localhost:3000/government/regulation/enforce/url',
-          form: {url: "http://localhost:3002", citizenTypes: ['citizen']}},
+          form: {url: "http://localhost:3004", citizenTypes: ['citizen']}},
                   function(err,httpResponse,body) {
                     result = JSON.parse(body);
                     expect(result.success).toBe(true);
