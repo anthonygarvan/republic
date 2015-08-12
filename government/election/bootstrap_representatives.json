@@ -1,0 +1,10 @@
+{ "representatives":
+  [{"title": "Feature Lead",
+      "description": "Leads development pull requests for feature development",
+      "personnel": [],
+      "maxPersonnel": 2},
+    {"title": "Support Lead",
+      "description": "Handles bugs and manages backlog",
+      "personnel": [],
+      "maxPersonnel": 1}]
+}

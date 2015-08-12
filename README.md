@@ -19,8 +19,8 @@ In its implementation, Republic is a web service that validates other web servic
 - government/citizenship/add-collaborator?url={url}&username={username}
 - government/citizenship/get-citizen?url={url}
 - government/citizenship/all
-- government/election/representatives/list
-- government/election/vote/username={name}&position={title}
+- government/election/get-representatives
+- government/election/vote?username={name}&title={title}
 - government/election/details
 - government/election/run-for-office/username={}&position={title}&platform={url}
 - government/election/notify-voters
@@ -51,7 +51,6 @@ Some other potential constraints on citizens:
 - Dogfooding?
 
 ## TODO
-- jasmine tests
 - add support for regulating post requests
 - figure out authentication story
 - angularjs + skeleton css front end

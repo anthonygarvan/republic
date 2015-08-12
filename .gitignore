@@ -1,4 +1,5 @@
 node_modules/*
 government/citizenship/citizenshipdb/*
+government/election/electiondb/*
 npm-debug.log
 coverage/*
