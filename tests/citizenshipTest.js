@@ -54,6 +54,33 @@ describe("Make sure government is alive", function() {
       })
   });
 
+  it("returns success for adding second collaborator", function(done) {
+      request.post({url: "http://localhost:3000/government/citizenship/apply",
+      form: {url: "http://localhost:3001", citizenTypes: ["citizen"]}},
+      function(err, response, body) {
+        var params = "url="+ encodeURIComponent("http://localhost:3001") + "&username=testuser";
+        request.get("http://localhost:3000/government/citizenship/add-collaborator?" + params,
+          function(err, response, body) {
+            params = "url="+ encodeURIComponent("http://localhost:3001") + "&username=testuser2";
+            request.get("http://localhost:3000/government/citizenship/add-collaborator?" + params,
+              function(err, response, body) {
+                result = JSON.parse(body);
+                expect(result.success).toBe(true);
+                done();
+              });
+          });
+      })
+  });
+
+  it("add collaborator return success false for missing params", function(done) {
+    request.get("http://localhost:3000/government/citizenship/add-collaborator",
+      function(err, response, body) {
+          result = JSON.parse(body);
+          expect(result.success).toBe(false);
+          done();
+      });
+  });
+
   it("can get a citizen by url", function(done) {
       request.post({url: "http://localhost:3000/government/citizenship/apply",
       form: {url: "http://localhost:3001", citizenTypes: ["citizen"]}},
@@ -67,6 +94,15 @@ describe("Make sure government is alive", function() {
               done();
           });
       })
+  });
+
+  it("can get a citizen return success false for no url", function(done) {
+    request.get("http://localhost:3000/government/citizenship/get-citizen",
+      function(err, response, body) {
+          result = JSON.parse(body);
+          expect(result.success).toBe(false);
+          done();
+      });
   });
 
   it("can get all citizens", function(done) {

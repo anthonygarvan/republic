@@ -46,7 +46,7 @@ router.get('/add-collaborator', function (req, res) {
       collection.update({url: req.query.url},
         citizen,
         function(err, result) {
-          res.json({ success: true });
+          res.json({ success: true});
         });
     })
   } else {
