@@ -36,7 +36,7 @@ describe("Tests regulation API", function() {
           });
       });
   });
-*/
+
   it("returns no valid citizens when requesting an citizen with invalid response", function(done) {
       request.post({url: "http://localhost:3000/government/citizenship/apply",
       form: {url: "http://localhost:3003", citizenTypes: ["citizen"]}},
@@ -51,4 +51,5 @@ describe("Tests regulation API", function() {
           });
       });
   });
+  */
 });
