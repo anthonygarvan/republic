@@ -54,7 +54,7 @@ router.get('/vote', function (req, res) {
         var vote = {title: req.query.title,
                     voterUsername: req.query.voterUsername,
                     candidateUsername: req.query.candidateUsername};
-        votes.update({voterUsername: req.query.candidateUsername, title: req.query.title},
+        votes.update({voterUsername: req.query.voterUsername, title: req.query.title},
           vote, {upsert: true});
         res.json({success: true, vote: vote});
       } else {
@@ -64,6 +64,25 @@ router.get('/vote', function (req, res) {
   } else {
     res.json({success: false})
   }
+});
+
+router.get('/count-votes', function (req, res) {
+  votes.find({}).toArray(function(err, votes) {
+    var voteCount = {}
+    votes.forEach(function(vote) {
+      if(!(vote.title in voteCount)) {
+        voteCount[vote.title] = {}
+        voteCount[vote.title][vote.candidateUsername] = 1;
+      } else {
+        if(!(vote.candidateUsername in voteCount[vote.title])) {
+          voteCount[vote.title][vote.candidateUsername] = 1;
+        } else {
+          voteCount[vote.title][vote.candidateUsername] += 1;
+        }
+      }
+    });
+    res.json({success: true, voteCount: voteCount});
+  });
 });
 
 router.get('/run-for-office', function (req, res) {
@@ -82,5 +101,4 @@ router.get('/get-candidates', function (req, res) {
     res.json({success: true, candidates: candidates});
   });
 });
-
 module.exports = {router: router};

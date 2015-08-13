@@ -1,4 +1,5 @@
 var request = require("request")
+var async = require('async');
 
 describe("Tests for elections", function() {
   it("returns something from election root", function(done) {
@@ -41,7 +42,6 @@ describe("Tests for elections", function() {
   });
 
   it("returns success false with invalid title", function(done) {
-
       request.get("http://localhost:3000/government/election/vote?voterUsername=ImaVoter&candidateUsername=ImaCandidate&title=nonexistent", function(err, response, body) {
             expect(!err && response.statusCode == 200).toBe(true);
             var result = JSON.parse(body);
@@ -58,6 +58,35 @@ describe("Tests for elections", function() {
             expect(result.success).toBe(true);
             done();
       })
+  });
+
+  it("returns success true when getting votes", function(done) {
+      request.get("http://localhost:3000/government/election/count-votes", function(err, response, body) {
+            expect(!err && response.statusCode == 200).toBe(true);
+            var result = JSON.parse(body);
+            expect(result.success).toBe(true);
+            done();
+      })
+  });
+
+  it("counts votes properly", function(done) {
+      votes = [{candidateUsername: "ImaCandy1983", voterUsername: "ImaV1"},
+                {candidateUsername: "ImaCandy1983", voterUsername: "ImaV1"},
+                {candidateUsername: "ImaCandy1983", voterUsername: "ImaV2"}];
+      async.map(votes, function(vote, callback) {
+        var title = encodeURIComponent("Feature Lead");
+        request.get("http://localhost:3000/government/election/vote?voterUsername=" + vote.voterUsername +
+                    "&candidateUsername="+ vote.candidateUsername + "&title=" + title,
+                    function(err, response, body) {callback();})
+      }, function(err, results) {
+        request.get("http://localhost:3000/government/election/count-votes", function(err, response, body) {
+              expect(!err && response.statusCode == 200).toBe(true);
+              var result = JSON.parse(body);
+              expect(result.success).toBe(true);
+              expect(result.voteCount["Feature Lead"]["ImaCandy1983"]).toBe(2);
+              done();
+        });
+      });
   });
 
   it("returns success when running for office", function(done) {
