@@ -42,7 +42,7 @@ describe("Tests for elections", function() {
 
   it("returns success false with invalid title", function(done) {
 
-      request.get("http://localhost:3000/government/election/vote?username=test_user&title=nonexistent", function(err, response, body) {
+      request.get("http://localhost:3000/government/election/vote?voterUsername=ImaVoter&candidateUsername=ImaCandidate&title=nonexistent", function(err, response, body) {
             expect(!err && response.statusCode == 200).toBe(true);
             var result = JSON.parse(body);
             expect(result.success).toBe(false);
@@ -52,12 +52,32 @@ describe("Tests for elections", function() {
 
   it("returns success true with username and title provided", function(done) {
       var title = encodeURIComponent("Feature Lead");
-      request.get("http://localhost:3000/government/election/vote?username=test_user&title=" + title, function(err, response, body) {
+      request.get("http://localhost:3000/government/election/vote?voterUsername=ImaVoter&candidateUsername=ImaCandidate&title=" + title, function(err, response, body) {
             expect(!err && response.statusCode == 200).toBe(true);
             var result = JSON.parse(body);
-
             expect(result.success).toBe(true);
             done();
       })
+  });
+
+  it("returns success when running for office", function(done) {
+      var title = encodeURIComponent("Feature Lead");
+      request.get("http://localhost:3000/government/election/run-for-office?username=ImaCandidate&title=" + title,
+            function(err, response, body) {
+              expect(!err && response.statusCode == 200).toBe(true);
+              var result = JSON.parse(body);
+              expect(result.success).toBe(true);
+              done();
+    });
+  });
+
+  it("returns success false when running for office without proper params", function(done) {
+      request.get("http://localhost:3000/government/election/run-for-office",
+            function(err, response, body) {
+              expect(!err && response.statusCode == 200).toBe(true);
+              var result = JSON.parse(body);
+              expect(result.success).toBe(false);
+              done();
+    });
   });
 });

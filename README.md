@@ -67,7 +67,14 @@ republic_config.json. Lastly, to start the app run
 > node app.js
 ```
 
-To run tests locally, use
+To run tests locally, use first, start the example apps as separate processes:
+
+```
+> nohup node examples/citizen.js &
+> nohup node examples/citizenMissingEndpoint.js &
+> nohup node examples/citizenWithInvalidReturn.js &
+```
+### Then run the tests!
 ```
 > npm test
 > npm run coverage
