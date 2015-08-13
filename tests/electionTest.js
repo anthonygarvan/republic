@@ -80,4 +80,15 @@ describe("Tests for elections", function() {
               done();
     });
   });
+
+    it("returns success true when getting candidates", function(done) {
+        request.get("http://localhost:3000/government/election/get-candidates",
+              function(err, response, body) {
+                expect(!err && response.statusCode == 200).toBe(true);
+                var result = JSON.parse(body);
+                expect(result.success).toBe(true);
+                expect(result.candidates.length >= 0).toBe(true)
+                done();
+      });
+  });
 });

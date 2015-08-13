@@ -69,12 +69,18 @@ router.get('/vote', function (req, res) {
 router.get('/run-for-office', function (req, res) {
   if(req.query.title && req.query.username) {
     candidates.update({username: req.query.username},
-      {username: req.query.username, title: req.query.title},
+      {username: req.query.username, title: req.query.title, url: req.query.url},
       {upsert: true});
       res.json({success: true})
   } else {
     res.json({success: false})
   }
+});
+
+router.get('/get-candidates', function (req, res) {
+  candidates.find({}).toArray(function(err, candidates) {
+    res.json({success: true, candidates: candidates});
+  });
 });
 
 module.exports = {router: router};
