@@ -146,7 +146,6 @@ describe("Tests for elections", function() {
               request.get("http://localhost:3000/government/election/elect-representatives", function(err, response, body) {
                     expect(!err && response.statusCode == 200).toBe(true);
                     var result = JSON.parse(body);
-                    console.log(result.newRepresentatives[0].personnel);
                     expect(result.success).toBe(true);
                     expect(result.newRepresentatives.length).toBe(2);
                     expect(result.newRepresentatives[0].title).toBe('Feature Lead');
