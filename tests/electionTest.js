@@ -70,13 +70,17 @@ describe("Tests for elections", function() {
   });
 
   it("counts votes properly", function(done) {
-      votes = [{candidateUsername: "ImaCandy1983", voterUsername: "ImaV1"},
-                {candidateUsername: "ImaCandy1983", voterUsername: "ImaV1"},
-                {candidateUsername: "ImaCandy1983", voterUsername: "ImaV2"}];
+      var featureLead = encodeURIComponent("Feature Lead");
+      var supportLead = encodeURIComponent("Support Lead");
+      votes = [{candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV1"},
+                {candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV1"},
+                {candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV2"},
+                {candidateUsername: "ImaCandy2001", title: featureLead, voterUsername: "ImaV3"},
+                {candidateUsername: "ImaCandy2015", title: supportLead, voterUsername: "ImaV1"}
+              ];
       async.map(votes, function(vote, callback) {
-        var title = encodeURIComponent("Feature Lead");
         request.get("http://localhost:3000/government/election/vote?voterUsername=" + vote.voterUsername +
-                    "&candidateUsername="+ vote.candidateUsername + "&title=" + title,
+                    "&candidateUsername="+ vote.candidateUsername + "&title=" + vote.title,
                     function(err, response, body) {callback();})
       }, function(err, results) {
         request.get("http://localhost:3000/government/election/count-votes", function(err, response, body) {
@@ -84,6 +88,8 @@ describe("Tests for elections", function() {
               var result = JSON.parse(body);
               expect(result.success).toBe(true);
               expect(result.voteCount["Feature Lead"]["ImaCandy1983"]).toBe(2);
+              expect(result.voteCount["Feature Lead"]["ImaCandy2001"]).toBe(1);
+              expect(result.voteCount["Support Lead"]["ImaCandy2015"]).toBe(1);
               done();
         });
       });
@@ -110,7 +116,7 @@ describe("Tests for elections", function() {
     });
   });
 
-    it("returns success true when getting candidates", function(done) {
+  it("returns success true when getting candidates", function(done) {
         request.get("http://localhost:3000/government/election/get-candidates",
               function(err, response, body) {
                 expect(!err && response.statusCode == 200).toBe(true);
@@ -120,4 +126,35 @@ describe("Tests for elections", function() {
                 done();
       });
   });
+
+    it("elects representatives properly", function(done) {
+        var featureLead = encodeURIComponent("Feature Lead");
+        var supportLead = encodeURIComponent("Support Lead");
+        votes = [{candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV1"},
+                  {candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV1"},
+                  {candidateUsername: "ImaCandy1983", title: featureLead, voterUsername: "ImaV2"},
+                  {candidateUsername: "ImaCandy2001", title: featureLead, voterUsername: "ImaV3"},
+                  {candidateUsername: "ImaCandy2015", title: supportLead, voterUsername: "ImaV1"}
+                ];
+
+        request.get("http://localhost:3000/government/election/clear-votes", function(err, response, body) {
+            async.map(votes, function(vote, callback) {
+              request.get("http://localhost:3000/government/election/vote?voterUsername=" + vote.voterUsername +
+                          "&candidateUsername="+ vote.candidateUsername + "&title=" + vote.title,
+                          function(err, response, body) {callback();})
+            }, function(err, results) {
+              request.get("http://localhost:3000/government/election/elect-representatives", function(err, response, body) {
+                    expect(!err && response.statusCode == 200).toBe(true);
+                    var result = JSON.parse(body);
+                    console.log(result.newRepresentatives[0].personnel);
+                    expect(result.success).toBe(true);
+                    expect(result.newRepresentatives.length).toBe(2);
+                    expect(result.newRepresentatives[0].title).toBe('Feature Lead');
+                    expect(result.newRepresentatives[0].personnel.indexOf("ImaCandy1983") >= 0 ).toBe(true);
+                    expect(result.newRepresentatives[0].personnel.indexOf("ImaCandy2001") >= 0 ).toBe(true);
+                    done();
+              });
+            });
+        });
+    });
 });

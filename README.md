@@ -73,6 +73,7 @@ To run tests locally, use first, start the example apps as separate processes:
 > nohup node examples/citizen.js &
 > nohup node examples/citizenMissingEndpoint.js &
 > nohup node examples/citizenWithInvalidReturn.js &
+> export JASMINE_CONFIG_PATH=tests/support/jasmine.json
 ```
 ### Then run the tests!
 ```

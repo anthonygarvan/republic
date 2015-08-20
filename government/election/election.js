@@ -4,6 +4,7 @@ var fs = require('fs');
 var Engine = require('tingodb')();
 var router = express.Router();
 var async = require('async');
+var request = require('request');
 
 var dbPath = __dirname + '/electiondb';
 mkdirp.sync(dbPath)
@@ -101,4 +102,54 @@ router.get('/get-candidates', function (req, res) {
     res.json({success: true, candidates: candidates});
   });
 });
+
+router.get('/clear-votes', function(req, res) {
+  votes.remove();
+  res.json({success: true});
+});
+
+router.get('/elect-representatives', function(req, res) {
+  request.get('http://localhost:3000/government/election/count-votes',
+    function(err, httpResponse, body) {
+        var voteCount = JSON.parse(body).voteCount;
+        representatives.find({}).toArray(function(err, allReps) {
+                allReps.forEach(function(rep) {
+                  if(rep.title in voteCount) {
+                    rep.personnel = [];
+                  }});
+
+                  voteCountByTitle = {};
+                  Object.keys(voteCount).forEach(function(title) {
+                    repsForTitle = Object.keys(voteCount[title])
+                    repsWithVotes = []
+                    repsForTitle.forEach(function(rep) {
+                      repsWithVotes.push({candidate: rep, count: voteCount[title][rep]})
+                    });
+                    repsWithVotes.sort(function(rep1, rep2) {return rep2.count - rep1.count;})
+                    voteCountByTitle[title] = repsWithVotes;
+                  });
+
+                allReps.forEach(function(rep) {
+                    if(rep.title in voteCountByTitle) {
+                      voteCountByTitle[rep.title].forEach(function(candidateCounts) {
+                        if(rep.personnel.length < rep.maxPersonnel) {
+                          rep.personnel.push(candidateCounts.candidate);
+                        }
+                      });
+                    }
+                  });
+
+                async.map(allReps, function(rep, callback) {
+                    representatives.update({title: rep.title}, rep, function() {
+                      callback();
+                    });
+                  }, function(err, result) {
+                    representatives.find({}).toArray(function(err, reps) {
+                      res.json({success: true, newRepresentatives: reps});
+                    });
+                  });
+        });
+      });
+});
+
 module.exports = {router: router};
