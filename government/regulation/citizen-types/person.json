@@ -1,0 +1,8 @@
+{
+    "endpoints":
+    [
+      {"relativeUri": "/person/isalive",
+      "requestType": "get",
+      "responseTemplate": {"name": "Test", "description": "This is just a test"}}
+    ]
+}

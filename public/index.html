@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Republic</title>
+  <meta name="description" content="Republic: A Democratic Microservice Governance Platform">
+  <meta name="author" content="Anthony Garvan">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/republic-demo.css">
+
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+  <script src="js/republic-demo.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 25%">
+        <h4>Republic</h4>
+        <p>A democratic microservice governance platform.
+          This is an demo app showing basic functionality including
+          citizenship, elections, and regulation. 
+        </p>
+        <div ng-controller="citizenshipController as citizenship">
+          <div>
+            <label for="url">Url:<label>
+            <input type="text" id="url" placeholder="eg., http://my.microservice.com"/>
+            <label for="citizenType">Citizen Type:</label>
+            <select id="citizenType">
+                <option person="person">Person</option>
+                <option value="citizen">Citizen</option>
+            </select>
+          </div>
+          <button type="button" ng-click="citizenship.submitApplication()">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
