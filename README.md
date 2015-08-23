@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/anthonygarvan/republic.svg)](https://travis-ci.org/anthonygarvan/republic) [![Coverage Status](https://coveralls.io/repos/anthonygarvan/republic/badge.svg?branch=master&service=github)](https://coveralls.io/github/anthonygarvan/republic?branch=master)
 
-# Republic: A democratic microservice governance platform (WIP)
+# Republic: A democratic microservice governance platform
 
 Republic is an implementation of a representative democracy in the domain of enterprise software architecture. It is a highly scalable microservice platform that overcomes the flaws of authoritarian monoliths and tribal microservices, providing loose coupling between services while enabling rapid infrastructure improvements. The governing code itself can be edited by collaborators elected by service contributors, ensuring incentives for change and longevity. Built on top of [nodejs](https://nodejs.org/), the [github API](https://developer.github.com/v3/), and [the idea of representative democracy](https://en.wikipedia.org/wiki/Republic).  
 
@@ -51,8 +51,8 @@ Some other potential constraints on citizens:
 - Dogfooding?
 
 ## TODO
+- github integration for electing collaborators / authentication
 - add support for regulating post requests
-- figure out authentication story
 - angularjs + skeleton css front end
 
 ## Setup
